@@ -1,0 +1,28 @@
+{
+  "name": "aiyer-digital",
+  "version": "1.0.0",
+  "description": "Modern landing page for AIyer Digital - AI & Automation Solutions",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "next": "^16.0.0",
+    "lucide-react": "latest"
+  },
+  "devDependencies": {
+    "typescript": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@types/node": "latest",
+    "tailwindcss": "latest",
+    "postcss": "latest",
+    "autoprefixer": "latest",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "latest"
+  }
+}

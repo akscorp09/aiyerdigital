@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Upload, Send, AlertCircle, CheckCircle } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
 
 interface Complaint {
   id: string;
@@ -46,6 +47,7 @@ export default function CCPPortal() {
     'Other',
   ];
 
+  // Fetch complaints on mount
   useEffect(() => {
     fetchComplaints();
   }, []);
@@ -53,12 +55,13 @@ export default function CCPPortal() {
   const fetchComplaints = async () => {
     try {
       setFetchingComplaints(true);
-      const res = await fetch('/api/complaints');
-      const result = await res.json();
+      const { data, error } = await supabase
+        .from('complaints')
+        .select('*')
+        .order('created_at', { ascending: false });
 
-      if (result.success) {
-        setComplaints(result.data || []);
-      }
+      if (error) throw error;
+      setComplaints(data || []);
     } catch (error) {
       console.error('Error fetching complaints:', error);
     } finally {
@@ -89,30 +92,35 @@ export default function CCPPortal() {
     setLoading(true);
 
     try {
-      const res = await fetch('/api/complaints', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(complaint),
+      const { data, error } = await supabase
+        .from('complaints')
+        .insert([
+          {
+            block_name: complaint.blockName,
+            floor_number: complaint.floorNumber,
+            issue_type: complaint.issueType,
+            description: complaint.description,
+            status: 'submitted',
+          },
+        ])
+        .select();
+
+      if (error) throw error;
+
+      // Reset form
+      setComplaint({
+        blockName: '',
+        floorNumber: '',
+        issueType: '',
+        description: '',
       });
+      setImagePreview(null);
+      setSubmitted(true);
 
-      const result = await res.json();
+      // Refresh complaints list
+      await fetchComplaints();
 
-      if (result.success) {
-        setComplaint({
-          blockName: '',
-          floorNumber: '',
-          issueType: '',
-          description: '',
-        });
-        setImagePreview(null);
-        setSubmitted(true);
-
-        await fetchComplaints();
-
-        setTimeout(() => setSubmitted(false), 3000);
-      } else {
-        alert('Failed to submit complaint');
-      }
+      setTimeout(() => setSubmitted(false), 3000);
     } catch (error) {
       console.error('Error submitting complaint:', error);
       alert('Failed to submit complaint');
@@ -126,6 +134,7 @@ export default function CCPPortal() {
       <div className="fixed inset-0 bg-grid-pattern opacity-5 pointer-events-none" />
 
       <div className="relative max-w-6xl mx-auto px-4 py-12">
+        {/* Header */}
         <div className="mb-12 text-center">
           <div className="inline-block mb-4 px-4 py-2 bg-cyan-400/10 border border-cyan-400/20 rounded-full">
             <span className="text-cyan-400 text-sm font-mono">Community Complaint Portal</span>
@@ -139,6 +148,7 @@ export default function CCPPortal() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
+          {/* Form Section */}
           <div className="bg-slate-900/50 border border-cyan-400/10 rounded-lg p-8 backdrop-blur-sm hover:border-cyan-400/20 transition">
             <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
               <AlertCircle className="w-6 h-6 text-cyan-400" />
@@ -146,6 +156,7 @@ export default function CCPPortal() {
             </h2>
 
             <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Block Name */}
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-2">
                   Block Name *
@@ -159,6 +170,7 @@ export default function CCPPortal() {
                 />
               </div>
 
+              {/* Floor Number */}
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-2">
                   Floor Number *
@@ -172,6 +184,7 @@ export default function CCPPortal() {
                 />
               </div>
 
+              {/* Issue Type */}
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-2">
                   Issue Type *
@@ -190,6 +203,7 @@ export default function CCPPortal() {
                 </select>
               </div>
 
+              {/* Description */}
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-2">
                   Description *
@@ -203,6 +217,7 @@ export default function CCPPortal() {
                 />
               </div>
 
+              {/* Image Upload */}
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-2">
                   Upload Image (Optional)
@@ -234,6 +249,7 @@ export default function CCPPortal() {
                 )}
               </div>
 
+              {/* Submit Button */}
               <button
                 type="submit"
                 disabled={loading}
@@ -261,6 +277,7 @@ export default function CCPPortal() {
             </form>
           </div>
 
+          {/* Complaints List */}
           <div className="bg-slate-900/50 border border-cyan-400/10 rounded-lg p-8 backdrop-blur-sm hover:border-cyan-400/20 transition">
             <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
               <CheckCircle className="w-6 h-6 text-purple-400" />

@@ -1,7 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Upload, Send, AlertCircle, CheckCircle } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
+
+interface Complaint {
+  id: string;
+  block_name: string;
+  floor_number: string;
+  issue_type: string;
+  description: string;
+  status: string;
+  created_at: string;
+}
 
 interface ComplaintData {
   blockName: string;
@@ -22,7 +33,8 @@ export default function CCPPortal() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [complaints, setComplaints] = useState<any[]>([]);
+  const [complaints, setComplaints] = useState<Complaint[]>([]);
+  const [fetchingComplaints, setFetchingComplaints] = useState(true);
 
   const issueTypes = [
     'Plumbing',
@@ -34,6 +46,31 @@ export default function CCPPortal() {
     'Safety',
     'Other',
   ];
+
+  useEffect(() => {
+    fetchComplaints();
+  }, []);
+
+  const fetchComplaints = async () => {
+    try {
+      setFetchingComplaints(true);
+      console.log('Fetching complaints from Supabase...');
+      
+      const { data, error } = await supabase
+        .from('complaints')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      console.log('Fetch response:', { data, error });
+
+      if (error) throw error;
+      setComplaints(data || []);
+    } catch (error) {
+      console.error('Error fetching complaints:', error);
+    } finally {
+      setFetchingComplaints(false);
+    }
+  };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -58,19 +95,28 @@ export default function CCPPortal() {
     setLoading(true);
 
     try {
-      // For now, store locally. Later we'll send to backend
-      const newComplaint = {
-        id: Date.now(),
-        ...complaint,
-        image: imagePreview,
-        status: 'submitted',
-        createdAt: new Date().toLocaleString(),
-        priority: 'medium', // Claude will set this later
-      };
+      console.log('Submitting complaint:', complaint);
+      
+      const { data, error } = await supabase
+        .from('complaints')
+        .insert([
+          {
+            block_name: complaint.blockName,
+            floor_number: complaint.floorNumber,
+            issue_type: complaint.issueType,
+            description: complaint.description,
+            status: 'submitted',
+          },
+        ])
+        .select();
 
-      setComplaints([newComplaint, ...complaints]);
+      console.log('Submit response:', { data, error });
 
-      // Reset form
+      if (error) {
+        console.error('Insert failed:', error);
+        throw error;
+      }
+
       setComplaint({
         blockName: '',
         floorNumber: '',
@@ -79,6 +125,8 @@ export default function CCPPortal() {
       });
       setImagePreview(null);
       setSubmitted(true);
+
+      await fetchComplaints();
 
       setTimeout(() => setSubmitted(false), 3000);
     } catch (error) {
@@ -91,11 +139,9 @@ export default function CCPPortal() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
-      {/* Grid background */}
       <div className="fixed inset-0 bg-grid-pattern opacity-5 pointer-events-none" />
 
       <div className="relative max-w-6xl mx-auto px-4 py-12">
-        {/* Header */}
         <div className="mb-12 text-center">
           <div className="inline-block mb-4 px-4 py-2 bg-cyan-400/10 border border-cyan-400/20 rounded-full">
             <span className="text-cyan-400 text-sm font-mono">Community Complaint Portal</span>
@@ -109,7 +155,6 @@ export default function CCPPortal() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
-          {/* Form Section */}
           <div className="bg-slate-900/50 border border-cyan-400/10 rounded-lg p-8 backdrop-blur-sm hover:border-cyan-400/20 transition">
             <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
               <AlertCircle className="w-6 h-6 text-cyan-400" />
@@ -117,7 +162,6 @@ export default function CCPPortal() {
             </h2>
 
             <form onSubmit={handleSubmit} className="space-y-4">
-              {/* Block Name */}
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-2">
                   Block Name *
@@ -131,7 +175,6 @@ export default function CCPPortal() {
                 />
               </div>
 
-              {/* Floor Number */}
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-2">
                   Floor Number *
@@ -145,7 +188,6 @@ export default function CCPPortal() {
                 />
               </div>
 
-              {/* Issue Type */}
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-2">
                   Issue Type *
@@ -164,7 +206,6 @@ export default function CCPPortal() {
                 </select>
               </div>
 
-              {/* Description */}
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-2">
                   Description *
@@ -178,7 +219,6 @@ export default function CCPPortal() {
                 />
               </div>
 
-              {/* Image Upload */}
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-2">
                   Upload Image (Optional)
@@ -210,7 +250,6 @@ export default function CCPPortal() {
                 )}
               </div>
 
-              {/* Submit Button */}
               <button
                 type="submit"
                 disabled={loading}
@@ -238,15 +277,16 @@ export default function CCPPortal() {
             </form>
           </div>
 
-          {/* Complaints List */}
           <div className="bg-slate-900/50 border border-cyan-400/10 rounded-lg p-8 backdrop-blur-sm hover:border-cyan-400/20 transition">
             <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
               <CheckCircle className="w-6 h-6 text-purple-400" />
-              Recent Complaints
+              Recent Complaints ({complaints.length})
             </h2>
 
             <div className="space-y-4 max-h-96 overflow-y-auto">
-              {complaints.length === 0 ? (
+              {fetchingComplaints ? (
+                <p className="text-slate-400 text-center py-8">Loading complaints...</p>
+              ) : complaints.length === 0 ? (
                 <p className="text-slate-400 text-center py-8">No complaints yet. Be the first to report!</p>
               ) : (
                 complaints.map((comp) => (
@@ -257,16 +297,18 @@ export default function CCPPortal() {
                     <div className="flex justify-between items-start mb-2">
                       <div>
                         <p className="font-semibold text-white">
-                          {comp.blockName} - Floor {comp.floorNumber}
+                          {comp.block_name} - Floor {comp.floor_number}
                         </p>
-                        <p className="text-sm text-cyan-400">{comp.issueType}</p>
+                        <p className="text-sm text-cyan-400">{comp.issue_type}</p>
                       </div>
                       <span className="px-2 py-1 text-xs bg-purple-500/20 border border-purple-500/30 rounded text-purple-300">
-                        Submitted
+                        {comp.status}
                       </span>
                     </div>
                     <p className="text-sm text-slate-300 mb-2">{comp.description}</p>
-                    <p className="text-xs text-slate-500">{comp.createdAt}</p>
+                    <p className="text-xs text-slate-500">
+                      {new Date(comp.created_at).toLocaleString()}
+                    </p>
                   </div>
                 ))
               )}

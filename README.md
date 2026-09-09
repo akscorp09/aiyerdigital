@@ -1,103 +1,142 @@
-# AIyer Digital - Modern Landing Page
+# AIyer Digital - Portfolio + AI Projects
 
-A stunning, responsive landing page for AIyer Digital built with **Next.js 14**, **React 18**, **Tailwind CSS**, and modern design principles.
+A modern portfolio website with live AI-powered projects built with **Next.js 14**, **React 18**, **Tailwind CSS**, and **Supabase**.
 
-## 🎨 Design Features
+## 🎯 What This Is
 
-- **Dark Modern Theme**: Cyberpunk-inspired dark navy background with neon cyan and purple accents
-- **Responsive Design**: Mobile-first approach, fully responsive across all devices
-- **Smooth Animations**: Scroll-triggered effects, hover states, and gradient animations
-- **Advanced Visual Effects**:
-  - Animated background grid with parallax
-  - Glowing gradients and blur effects
-  - Neon text shadows
-  - Interactive hover states
-  - Smooth scrolling navigation
+**aiyer.digital** is a personal portfolio showcasing real-world AI projects and automation solutions. It combines:
+- Landing page with service overview
+- Projects hub for browsing AI projects
+- Phase 1: CCP Portal (Community Complaint Portal MVP)
 
-## 📋 Sections
-
-1. **Hero** - Eye-catching introduction with animated code block
-2. **About** - Company story and mission statement
-3. **Services** - 6 core service offerings with hover effects
-4. **Learning Journey** - Structured learning path with timeline
-5. **Contact** - Call-to-action section
-6. **Footer** - Links and social media connections
-
-## 🚀 Quick Start
-
-### Prerequisites
-- Node.js 18.17+ 
-- npm or yarn
-
-### Installation
-
-1. Clone the repository:
-```bash
-git clone <repository-url>
-cd aiyer-digital
-```
-
-2. Install dependencies:
-```bash
-npm install
-# or
-yarn install
-```
-
-3. Run the development server:
-```bash
-npm run dev
-# or
-yarn dev
-```
-
-4. Open [http://localhost:3000](http://localhost:3000) in your browser
-
-## 📁 Project Structure
+## 🏗️ Architecture
 
 ```
 aiyer-digital/
 ├── app/
-│   ├── layout.tsx          # Root layout with metadata
-│   ├── page.tsx            # Main landing page component
-│   └── globals.css         # Global styles
-├── public/                 # Static assets
-├── package.json            # Dependencies
-├── tailwind.config.js      # Tailwind CSS configuration
-├── next.config.js          # Next.js configuration
-├── tsconfig.json           # TypeScript configuration
-├── postcss.config.js       # PostCSS configuration
-└── README.md               # This file
+│   ├── page.tsx                    # Homepage
+│   ├── layout.tsx                  # Root layout
+│   ├── globals.css                 # Global styles
+│   ├── projects/
+│   │   ├── page.tsx               # Projects hub/gallery
+│   │   └── ccp/
+│   │       └── page.tsx           # CCP Portal (Phase 1)
+│   └── api/
+│       └── complaints/route.ts    # (Phase 2 backend)
+├── lib/
+│   └── supabase.ts                # Supabase client config
+├── package.json
+├── .env.local                      # Environment variables
+├── tailwind.config.js
+├── tsconfig.json
+└── README.md
 ```
 
-## 🎯 Customization
+## 🚀 Quick Start
 
-### Colors
-Edit the color scheme in `tailwind.config.js`:
-```js
-colors: {
-  cyan: { 400: '#22d3ee', 500: '#06b6d4' },
-  purple: { 400: '#a855f7', 500: '#a855f7' },
-  slate: { 950: '#0f172a', 900: '#0f1729' }
-}
+### Prerequisites
+- Node.js 18.17+
+- npm or yarn
+- Supabase account (optional, for Phase 2)
+
+### Installation
+
+```bash
+# Clone repo
+git clone https://github.com/akscorp09/aiyerdigital.git
+cd aiyerdigital
+
+# Install dependencies
+npm install
+
+# Create .env.local (optional for Phase 2)
+cp .env.local.example .env.local
+# Add your Supabase credentials if testing Phase 2
+
+# Run locally
+npm run dev
 ```
 
-### Fonts
-Custom fonts are configured in `globals.css`:
-- Primary: JetBrains Mono (code blocks)
-- Secondary: Space Mono (displays)
+Open [http://localhost:3000](http://localhost:3000)
 
-To change fonts, update the Google Fonts imports in both `layout.tsx` and `globals.css`.
+### Deploy to Vercel
 
-### Content
-Edit text content directly in `app/page.tsx`:
-- Hero section: lines 42-76
-- About section: lines 113-153
-- Services section: lines 159-209
-- Learning Journey: lines 215-253
-- Contact section: lines 259-280
+```bash
+git push origin main
+# Vercel auto-deploys on push
+```
 
-## 🔧 Build & Deploy
+Live at: **https://aiyer.digital**
+
+---
+
+## 📍 Routes
+
+| Route | Purpose | Status |
+|-------|---------|--------|
+| `/` | Homepage with service overview | ✅ Live |
+| `/projects` | AI projects gallery | ✅ Live |
+| `/projects/ccp` | CCP Portal (complaints) | ✅ Live Phase 1 |
+
+---
+
+## 🎨 Phase 1: CCP Portal
+
+**Community Complaint Portal** - MVP for apartment/building complaint management.
+
+### What Works (Phase 1)
+✅ Submit complaints (Block, Floor, Issue Type, Description, Image)  
+✅ Real-time form validation  
+✅ Beautiful dark UI with cyan/purple theme  
+✅ Responsive (mobile, tablet, desktop)  
+✅ Local browser state (complaints visible until refresh)  
+✅ Live at `/projects/ccp`
+
+### What's Planned (Phase 2)
+- Supabase database integration (persistent storage)
+- Claude API auto-categorization & priority assignment
+- Admin dashboard to manage complaints
+- Status tracking (submitted → in progress → resolved)
+
+### Phase 2 Blocker
+**Current limitation:** Network in your region cannot reach Supabase API (`net::ERR_CONNECTION_REFUSED`). Phase 1 works perfectly without it. Phase 2 database will be added when:
+- Network access is resolved, OR
+- Alternative backend is implemented
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend**: Next.js 14, React 18, TypeScript
+- **Styling**: Tailwind CSS 3.4, Lucide React icons
+- **Database**: Supabase (PostgreSQL) - Phase 2
+- **AI**: Claude API (Haiku 4.5) - Phase 2
+- **Hosting**: Vercel (auto-deploy on GitHub push)
+- **Version Control**: GitHub
+
+---
+
+## 📝 Environment Setup
+
+### `.env.local` (for Phase 2)
+
+```
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+CLAUDE_API_KEY=your_claude_api_key
+```
+
+**Note:** Not needed for Phase 1. Phase 1 works without environment variables.
+
+---
+
+## 🔧 Development
+
+### Run Dev Server
+```bash
+npm run dev
+# http://localhost:3000
+```
 
 ### Build for Production
 ```bash
@@ -105,105 +144,157 @@ npm run build
 npm start
 ```
 
-### Deploy to Vercel
-The easiest way to deploy is using [Vercel](https://vercel.com/):
-
+### TypeScript Check
 ```bash
-npm install -g vercel
-vercel
+npm run type-check
 ```
 
-### Deploy to Other Platforms
+---
 
-**Netlify**:
+## 🎯 Project Goals
+
+1. **Showcase Real Products** - Not just portfolio, actual working projects
+2. **Full-Stack Learning** - Frontend + Backend + AI integration
+3. **Open Architecture** - Easy to add new projects to `/projects/[name]`
+4. **Cloud Ready** - Deployable to any hosting (Vercel, AWS, etc.)
+
+---
+
+## 📊 Project Structure - Adding New Projects
+
+To add a new AI project:
+
 ```bash
-npm install -g netlify-cli
-netlify deploy --prod --dir=.next
+mkdir -p app/projects/[project-name]
+touch app/projects/[project-name]/page.tsx
 ```
 
-**GitHub Pages** (requires additional configuration):
+Update `app/projects/page.tsx` to add it to the gallery:
+
+```tsx
+const projects = [
+  {
+    id: 'ccp',
+    name: 'CCP Portal',
+    href: '/projects/ccp',
+    status: 'Live',
+  },
+  {
+    id: 'new-project',  // Add here
+    name: 'New Project',
+    href: '/projects/new-project',
+    status: 'Beta',
+  },
+];
+```
+
+---
+
+## 🚀 Deployment
+
+### Vercel (Recommended)
+1. Push to GitHub
+2. Vercel auto-deploys
+3. Custom domain: aiyer.digital (already configured)
+
+### Manual Deploy
 ```bash
 npm run build
-# Configure in next.config.js for static export
+# Deploy .next folder to your host
 ```
 
-## 🎨 Design Highlights
+---
 
-### Animations
-- **Parallax background grid**: Moves based on scroll position
-- **Gradient animations**: Smooth color transitions
-- **Staggered reveals**: Sequential element animations
-- **Hover effects**: Interactive button and card responses
+## 📚 File Guide
 
-### Accessibility
-- Semantic HTML structure
-- Focus-visible states for keyboard navigation
-- Alt text for images
-- Proper contrast ratios for text
-- ARIA labels where needed
+### Key Files
 
-### Performance
-- Image optimization (Next.js Image component ready)
-- CSS modules and Tailwind purging
-- Code splitting with Next.js
-- SWC minification
-- Optimized fonts (Google Fonts with preconnect)
+| File | Purpose |
+|------|---------|
+| `app/page.tsx` | Homepage component |
+| `app/projects/page.tsx` | Projects gallery |
+| `app/projects/ccp/page.tsx` | CCP Portal (Phase 1) |
+| `app/layout.tsx` | Root layout with metadata |
+| `app/globals.css` | Global styles + Tailwind imports |
+| `lib/supabase.ts` | Supabase client (Phase 2) |
+| `package.json` | Dependencies & scripts |
 
-## 📱 Responsive Breakpoints
+### Add/Edit Content
 
-- **Mobile**: < 640px (default)
-- **Tablet**: 640px - 1024px (md)
-- **Desktop**: > 1024px (lg)
+**Homepage**: Edit `app/page.tsx`  
+**Projects Hub**: Edit `app/projects/page.tsx`  
+**CCP Portal**: Edit `app/projects/ccp/page.tsx`  
+**Styles**: Edit `app/globals.css` or `tailwind.config.js`
 
-All sections adapt gracefully across breakpoints using Tailwind's responsive classes.
-
-## 🔌 Technology Stack
-
-- **Frontend Framework**: Next.js 14 (React 18)
-- **Styling**: Tailwind CSS 3.4
-- **UI Icons**: Lucide React
-- **Language**: TypeScript
-- **Build Tool**: Webpack (Next.js)
-- **CSS Processing**: PostCSS + Autoprefixer
-
-## 📚 Learning Resources
-
-- [Next.js Documentation](https://nextjs.org/docs)
-- [React Documentation](https://react.dev)
-- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
-- [TypeScript Handbook](https://www.typescriptlang.org/docs/)
-
-## 🤝 Contributing
-
-Feel free to fork this project and customize it for your needs. The codebase is well-organized and documented for easy modifications.
-
-## 📄 License
-
-This project is open source and available under the MIT License.
-
-## 💡 Tips for Customization
-
-1. **Add Components**: Create reusable components in `app/components/`
-2. **Add Pages**: Create new route files in `app/` following Next.js conventions
-3. **Extend Styles**: Add custom CSS in `globals.css` or extend `tailwind.config.js`
-4. **Optimize Images**: Use Next.js `Image` component for better performance
-5. **SEO**: Update metadata in `layout.tsx` for different pages
+---
 
 ## 🐛 Troubleshooting
 
-**Port 3000 is already in use**:
+### Port 3000 already in use
 ```bash
 npm run dev -- -p 3001
 ```
 
-**Tailwind styles not loading**:
-- Ensure content paths in `tailwind.config.js` match your file structure
-- Rebuild with `npm run build`
+### Tailwind styles not loading
+```bash
+npm run build
+npm run dev
+```
 
-**TypeScript errors**:
-- Run `npm install` to ensure all types are installed
-- Check `tsconfig.json` configuration
+### TypeScript errors
+```bash
+npm install
+```
+
+### Supabase connection fails (Expected in Phase 2)
+This is a known issue due to network restrictions. Phase 1 works without it.
 
 ---
 
-Built with ❤️ for modern builders and automation enthusiasts.
+## 🎓 Learning Path
+
+If you're learning from this project:
+
+1. **Phase 1 (Now)**: Focus on React/Next.js form handling + UI
+2. **Phase 2**: Add database (Supabase + API routes)
+3. **Phase 3**: Integrate Claude API for AI features
+4. **Phase 4**: Build admin dashboard & authentication
+
+Each phase builds on the previous one.
+
+---
+
+## 📈 Roadmap
+
+- [x] Phase 1: CCP Portal MVP (form + submission)
+- [ ] Phase 2: Supabase database + Claude API
+- [ ] Phase 3: Admin dashboard
+- [ ] Phase 4: Multi-building support
+- [ ] Phase 5: Mobile app (React Native)
+
+---
+
+## 🤝 Contributing
+
+This is a personal project, but feel free to fork and customize for your own needs.
+
+---
+
+## 📄 License
+
+MIT - Open source, use as you like.
+
+---
+
+## 💡 Notes
+
+- **Phase 1 is production-ready** for local/browser usage
+- **Network limitation**: Supabase unreachable from current region (Phase 2 blocker)
+- **Architecture is scalable**: Easy to add more projects under `/projects/[name]`
+- **Auto-deploy**: Every push to GitHub → Vercel deploys automatically
+
+---
+
+**Built with Next.js + React + Tailwind CSS + Vercel**
+
+Latest Update: Phase 1 Complete - September 2024

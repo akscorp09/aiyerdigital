@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Home } from 'lucide-react';
 
 export default function ProjectsHub() {
   const projects = [
@@ -24,6 +24,16 @@ export default function ProjectsHub() {
       <div className="fixed inset-0 bg-grid-pattern opacity-5 pointer-events-none" />
 
       <div className="relative max-w-6xl mx-auto px-4 py-12">
+        
+        {/* Home link */}
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-slate-400 hover:text-cyan-400 transition mb-8 text-sm"
+        >
+          <Home className="w-4 h-4" />
+          Home
+        </Link>
+
         <div className="mb-12">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
             AI Projects

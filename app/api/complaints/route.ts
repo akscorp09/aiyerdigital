@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 // In-memory storage (persists during session)
 let complaintsData: any[] = [];
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     return NextResponse.json({ 
       success: true, 

@@ -10,6 +10,13 @@ export default function ProjectsHub() {
       href: '/projects/ccp',
       status: 'Live',
     },
+    {
+      id: 'pei',
+      name: 'Personal Email Intelligence',
+      description: 'Turning inbox noise into structured weekly insights using Grok + Gmail',
+      href: '/projects/pei',
+      status: 'Live',
+    },
   ];
 
   return (

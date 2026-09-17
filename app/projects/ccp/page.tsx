@@ -1,7 +1,8 @@
 'use client';
 
+import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { Upload, Send, AlertCircle, CheckCircle } from 'lucide-react';
+import { Upload, Send, AlertCircle, CheckCircle, ArrowLeft } from 'lucide-react';
 
 interface Complaint {
   id: string;
@@ -129,7 +130,17 @@ export default function CCPPortal() {
       <div className="fixed inset-0 bg-grid-pattern opacity-5 pointer-events-none" />
 
       <div className="relative max-w-6xl mx-auto px-4 py-12">
-        <div className="mb-12 text-center">
+  
+  {/* Back link */}
+  <Link
+    href="/projects"
+    className="inline-flex items-center gap-2 text-slate-400 hover:text-cyan-400 transition mb-8 text-sm"
+  >
+    <ArrowLeft className="w-4 h-4" />
+    Back to Projects
+  </Link>
+
+  <div className="mb-12 text-center">
           <div className="inline-block mb-4 px-4 py-2 bg-cyan-400/10 border border-cyan-400/20 rounded-full">
             <span className="text-cyan-400 text-sm font-mono">Community Complaint Portal</span>
           </div>

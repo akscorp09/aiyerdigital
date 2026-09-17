@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { Upload, Send, AlertCircle, CheckCircle } from 'lucide-react';
-import { supabase } from '@/lib/supabase';
 
 interface Complaint {
   id: string;
@@ -12,6 +11,7 @@ interface Complaint {
   description: string;
   status: string;
   created_at: string;
+  image?: string; // base64 preview (optional)
 }
 
 interface ComplaintData {
@@ -21,6 +21,8 @@ interface ComplaintData {
   description: string;
   image?: File;
 }
+
+const STORAGE_KEY = 'ccp_complaints';
 
 export default function CCPPortal() {
   const [complaint, setComplaint] = useState<ComplaintData>({
@@ -47,30 +49,25 @@ export default function CCPPortal() {
     'Other',
   ];
 
+  // Load from localStorage on mount
   useEffect(() => {
-    fetchComplaints();
-  }, []);
-
-  const fetchComplaints = async () => {
     try {
-      setFetchingComplaints(true);
-      console.log('Fetching complaints from Supabase...');
-      
-      const { data, error } = await supabase
-        .from('complaints')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      console.log('Fetch response:', { data, error });
-
-      if (error) throw error;
-      setComplaints(data || []);
-    } catch (error) {
-      console.error('Error fetching complaints:', error);
+      const saved = localStorage.getItem(STORAGE_KEY);
+      setComplaints(saved ? JSON.parse(saved) : []);
+    } catch (e) {
+      console.error('Failed to load complaints:', e);
+      setComplaints([]);
     } finally {
       setFetchingComplaints(false);
     }
-  };
+  }, []);
+
+  // Persist whenever complaints change
+  useEffect(() => {
+    if (!fetchingComplaints) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(complaints));
+    }
+  }, [complaints, fetchingComplaints]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -86,7 +83,7 @@ export default function CCPPortal() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!complaint.blockName || !complaint.floorNumber || !complaint.issueType || !complaint.description) {
       alert('Please fill all required fields');
       return;
@@ -95,28 +92,20 @@ export default function CCPPortal() {
     setLoading(true);
 
     try {
-      console.log('Submitting complaint:', complaint);
-      
-      const { data, error } = await supabase
-        .from('complaints')
-        .insert([
-          {
-            block_name: complaint.blockName,
-            floor_number: complaint.floorNumber,
-            issue_type: complaint.issueType,
-            description: complaint.description,
-            status: 'submitted',
-          },
-        ])
-        .select();
+      const newComplaint: Complaint = {
+        id: crypto.randomUUID(),
+        block_name: complaint.blockName,
+        floor_number: complaint.floorNumber,
+        issue_type: complaint.issueType,
+        description: complaint.description,
+        status: 'submitted',
+        created_at: new Date().toISOString(),
+        image: imagePreview || undefined,
+      };
 
-      console.log('Submit response:', { data, error });
+      setComplaints((prev) => [newComplaint, ...prev]);
 
-      if (error) {
-        console.error('Insert failed:', error);
-        throw error;
-      }
-
+      // Reset form
       setComplaint({
         blockName: '',
         floorNumber: '',
@@ -125,8 +114,6 @@ export default function CCPPortal() {
       });
       setImagePreview(null);
       setSubmitted(true);
-
-      await fetchComplaints();
 
       setTimeout(() => setSubmitted(false), 3000);
     } catch (error) {
@@ -155,6 +142,7 @@ export default function CCPPortal() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
+          {/* Form */}
           <div className="bg-slate-900/50 border border-cyan-400/10 rounded-lg p-8 backdrop-blur-sm hover:border-cyan-400/20 transition">
             <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
               <AlertCircle className="w-6 h-6 text-cyan-400" />
@@ -277,6 +265,7 @@ export default function CCPPortal() {
             </form>
           </div>
 
+          {/* Recent Complaints */}
           <div className="bg-slate-900/50 border border-cyan-400/10 rounded-lg p-8 backdrop-blur-sm hover:border-cyan-400/20 transition">
             <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
               <CheckCircle className="w-6 h-6 text-purple-400" />
@@ -306,27 +295,35 @@ export default function CCPPortal() {
                       </span>
                     </div>
                     <p className="text-sm text-slate-300 mb-2">{comp.description}</p>
-                    <p className="text-xs text-slate-500">
+                    {comp.image && (
+                      <img
+                        src={comp.image}
+                        alt="Complaint"
+                        className="mt-2 max-h-32 rounded border border-slate-600"
+                      />
+                    )}
+                    <p className="text-xs text-slate-500 mt-2">
                       {new Date(comp.created_at).toLocaleString()}
                     </p>
                   </div>
                 ))
               )}
             </div>
-          </div>                  
+          </div>
         </div>
-        {/* About + Tech Stack Section */}
+
+        {/* About + Tech Stack */}
         <section className="mt-16">
           <div className="bg-slate-900/60 border border-cyan-500/20 rounded-2xl p-8 backdrop-blur-sm">
             <h2 className="text-2xl font-semibold text-cyan-400 mb-4">
               About this project
             </h2>
             <p className="text-slate-300 leading-relaxed mb-6">
-              CCP Portal is a Community Complaint Portal designed for apartment and building residents. 
-              It allows users to quickly report maintenance issues (plumbing, electrical, security, etc.) 
-              with location details and optional photo evidence. 
-              Phase 1 focuses on a clean, fast reporting experience. 
-              Phase 2 will add persistent storage, AI-powered prioritization, and an admin dashboard.
+              CCP Portal is a Community Complaint Portal designed for apartment and building residents.
+              It allows users to quickly report maintenance issues (plumbing, electrical, security, etc.)
+              with location details and optional photo evidence.
+              Phase 1 focuses on a clean, fast reporting experience (browser storage).
+              Phase 2 will add persistent cloud storage, AI-powered prioritization, and an admin dashboard.
             </p>
 
             <h3 className="text-xl font-semibold text-purple-400 mb-4">
@@ -343,7 +340,7 @@ export default function CCPPortal() {
               </div>
               <div className="flex items-center gap-2 text-slate-300">
                 <span className="w-2 h-2 rounded-full bg-purple-400"></span>
-                State: Client-side + Supabase (current)
+                State: Client-side + localStorage (no Supabase)
               </div>
               <div className="flex items-center gap-2 text-slate-300">
                 <span className="w-2 h-2 rounded-full bg-purple-400"></span>
@@ -355,7 +352,7 @@ export default function CCPPortal() {
               </div>
               <div className="flex items-center gap-2 text-slate-300">
                 <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
-                Repo:{" "}
+                Repo:{' '}
                 <a
                   href="https://github.com/akscorp09/aiyerdigital"
                   target="_blank"

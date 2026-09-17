@@ -86,14 +86,14 @@ export default function PEIPage() {
             <div>
               <h3 className="text-lg font-medium text-purple-400 mb-1">Week 1 (1–7 Aug)</h3>
               <p className="text-slate-300 text-sm">
-                Heavy daily astrology mail + bank alerts. Food orders (Swiggy) and investment updates. 
+                Heavy daily RSS mail + bank alerts. Food orders (Swiggy) and other updates. 
                 Activity peaked towards Friday.
               </p>
             </div>
             <div>
               <h3 className="text-lg font-medium text-purple-400 mb-1">Week 2 (8–14 Aug)</h3>
               <p className="text-slate-300 text-sm">
-                Continued astrology + quant Mutual Fund NFOs, job alerts, tool trials (Fireflies, SEO). 
+                Continued RSS + Mutual Fund NFOs, job alerts, tool trials (Fireflies, SEO). 
                 Steady transactional + newsletter mix.
               </p>
             </div>
@@ -106,8 +106,8 @@ export default function PEIPage() {
             <div>
               <h3 className="text-lg font-medium text-purple-400 mb-1">Week 4 (22–31 Aug)</h3>
               <p className="text-slate-300 text-sm">
-                Highest concentration of activity. Multiple Flipkart deliveries, HDFC FD maturity notices, 
-                Zerodha statement, DCB alerts, job matches, and daily horoscopes. 31 Aug was particularly dense.
+                Highest concentration of activity. Multiple deliveries, Bank alerts, 
+                Other statement, notifications, job matches, and daily horoscopes. 31 Aug was particularly dense.
               </p>
             </div>
           </div>
@@ -129,13 +129,13 @@ export default function PEIPage() {
               </thead>
               <tbody className="text-slate-300">
                 <tr className="border-b border-slate-800">
-                  <td className="py-3">Daily Astrology</td>
+                  <td className="py-3">Daily RSS</td>
                   <td className="py-3">Astrology.com, Tarot.com, Sasstrology</td>
                   <td className="py-3 text-cyan-400">Very high</td>
                 </tr>
                 <tr className="border-b border-slate-800">
                   <td className="py-3">Banking & Finance</td>
-                  <td className="py-3">DCB, HDFC, Kotak, Axis, quant, Zerodha</td>
+                  <td className="py-3">XXX, ABCD, YYY, Axis, ZZZ, AAA</td>
                   <td className="py-3 text-cyan-400">High</td>
                 </tr>
                 <tr className="border-b border-slate-800">
@@ -145,12 +145,12 @@ export default function PEIPage() {
                 </tr>
                 <tr className="border-b border-slate-800">
                   <td className="py-3">Career & Jobs</td>
-                  <td className="py-3">LinkedIn, Indeed, EY</td>
+                  <td className="py-3">LinkedIn, Indeed</td>
                   <td className="py-3">Medium</td>
                 </tr>
                 <tr>
                   <td className="py-3">Tech / AI News</td>
-                  <td className="py-3">GenAI Works + LinkedIn newsletters</td>
+                  <td className="py-3">GenAI Works + LinkedIn Newsletters</td>
                   <td className="py-3">Medium</td>
                 </tr>
               </tbody>
@@ -166,11 +166,11 @@ export default function PEIPage() {
           <ul className="space-y-3 text-slate-300">
             <li className="flex items-start gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-purple-400 mt-2"></span>
-              Newsletters (especially daily astrology) dominate volume
+              Newsletters (especially daily RSS) dominate volume
             </li>
             <li className="flex items-start gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-purple-400 mt-2"></span>
-              Clear personal activity trails: food ordering, online shopping, FD monitoring, job market scanning
+              Clear personal activity trails: food ordering, online shopping, Crypto monitoring, job market scanning
             </li>
             <li className="flex items-start gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-purple-400 mt-2"></span>
@@ -178,7 +178,7 @@ export default function PEIPage() {
             </li>
             <li className="flex items-start gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-purple-400 mt-2"></span>
-              End-of-month spike driven by statements, deliveries and maturity notices
+              End-of-month spike driven by statements, deliveries and other alerts
             </li>
           </ul>
         </div>

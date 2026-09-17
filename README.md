@@ -1,300 +1,142 @@
-# AIyer Digital - Portfolio + AI Projects
+# AIyer Digital
 
-A modern portfolio website with live AI-powered projects built with **Next.js 14**, **React 18**, **Tailwind CSS**, and **Supabase**.
+**Personal portfolio + live AI projects**  
+Built with Next.js 14, React 18, TypeScript & Tailwind CSS.
 
-## 🎯 What This Is
+**Live site:** [https://aiyer.digital](https://aiyer.digital)
 
-**aiyer.digital** is a personal portfolio showcasing real-world AI projects and automation solutions. It combines:
-- Landing page with service overview
-- Projects hub for browsing AI projects
-- Phase 1: CCP Portal (Community Complaint Portal MVP)
+---
 
-## 🏗️ Architecture
+## Overview
 
-```
-aiyer-digital/
-├── app/
-│   ├── page.tsx                    # Homepage
-│   ├── layout.tsx                  # Root layout
-│   ├── globals.css                 # Global styles
-│   ├── projects/
-│   │   ├── page.tsx               # Projects hub/gallery
-│   │   └── ccp/
-│   │       └── page.tsx           # CCP Portal (Phase 1)
-│   └── api/
-│       └── complaints/route.ts    # (Phase 2 backend)
-├── lib/
-│   └── supabase.ts                # Supabase client config
-├── package.json
-├── .env.local                      # Environment variables
-├── tailwind.config.js
-├── tsconfig.json
-└── README.md
-```
+aiyer.digital is a personal portfolio focused on **real, working AI and automation projects** — not just concepts or mockups.  
 
-## 🚀 Quick Start
+It currently includes:
 
-### Prerequisites
-- Node.js 18.17+
-- npm or yarn
-- Supabase account (optional, for Phase 2)
+- A clean landing page
+- A projects gallery
+- Live, functional applications
 
-### Installation
+The goal is to continuously ship practical AI use cases and document the process.
+
+---
+
+## Live Projects
+
+### 1. CCP Portal – Community Complaint Portal
+A real-time complaint reporting system for apartment and building residents.
+
+**Features (Phase 1):**
+- Submit complaints with Block, Floor, Issue Type, Description & optional image
+- View recent complaints
+- Clean dark UI with cyan/purple theme
+- Fully responsive
+
+**Planned (Phase 2):**
+- Persistent storage with Supabase
+- Claude API for auto-categorization & priority
+- Admin dashboard + status tracking
+
+**Live:** [aiyer.digital/projects/ccp](https://aiyer.digital/projects/ccp)
+
+---
+
+### 2. Personal Email Intelligence (PEI)
+Turning raw inbox noise into structured weekly insights using **Grok + Gmail** (read-only).
+
+**What it does:**
+- Analyses email activity (August 2026 example)
+- Breaks down senders, categories and patterns
+- Surfaces personal activity signals (shopping, banking, career, food)
+- Privacy-first approach (no emails modified or deleted)
+
+**Live:** [aiyer.digital/projects/pei](https://aiyer.digital/projects/pei)
+
+---
+
+## Tech Stack
+
+| Layer        | Technology                          |
+|--------------|-------------------------------------|
+| Frontend     | Next.js 14, React 18, TypeScript    |
+| Styling      | Tailwind CSS, Lucide Icons          |
+| Database     | Supabase (Phase 2 for CCP)          |
+| AI           | Grok + Claude API                   |
+| Hosting      | Vercel (auto-deploy on push)        |
+| Version Ctrl | GitHub                              |
+
+---
+
+## Project Structure
 
 ```bash
-# Clone repo
+aiyerdigital/
+├── app/
+│   ├── page.tsx                  # Homepage
+│   ├── layout.tsx
+│   ├── globals.css
+│   └── projects/
+│       ├── page.tsx              # Projects gallery
+│       ├── ccp/
+│       │   └── page.tsx          # CCP Portal
+│       └── pei/
+│           └── page.tsx          # Personal Email Intelligence
+├── lib/
+│   └── supabase.ts
+├── package.json
+└── README.md
+
+Getting Started
+Prerequisites
+
+Node.js 18.17+
+npm or yarn
+
+Installation
+Bash
 git clone https://github.com/akscorp09/aiyerdigital.git
 cd aiyerdigital
-
-# Install dependencies
 npm install
-
-# Create .env.local (optional for Phase 2)
-cp .env.local.example .env.local
-# Add your Supabase credentials if testing Phase 2
-
-# Run locally
 npm run dev
-```
+Open http://localhost:3000
 
-Open [http://localhost:3000](http://localhost:3000)
+Adding a New Project
 
-### Deploy to Vercel
+Create the folder:Bash mkdir -p app/projects/[project-name]
+Add page.tsx inside it
+Register it in app/projects/page.tsx:
 
-```bash
-git push origin main
-# Vercel auto-deploys on push
-```
+tsx{
+  id: 'project-id',
+  name: 'Project Name',
+  description: 'Short description',
+  href: '/projects/project-id',
+  status: 'Live',
+}
 
-Live at: **https://aiyer.digital**
+Push to GitHub → Vercel automatically deploys
 
----
 
-## 📍 Routes
+Routes
 
-| Route | Purpose | Status |
-|-------|---------|--------|
-| `/` | Homepage with service overview | ✅ Live |
-| `/projects` | AI projects gallery | ✅ Live |
-| `/projects/ccp` | CCP Portal (complaints) | ✅ Live Phase 1 |
+RoutePurposeStatus/HomepageLive/projectsProjects galleryLive/projects/ccpCommunity Complaint PortalLive/projects/peiPersonal Email IntelligenceLive
 
----
+Roadmap
 
-## 🎨 Phase 1: CCP Portal
+ CCP Portal (Phase 1)
+ Personal Email Intelligence
+ CCP Public Dashboard (metrics display)
+ Career Signal Tracker
+ More personal AI use cases
+ CCP Phase 2 (Supabase + Claude)
 
-**Community Complaint Portal** - MVP for apartment/building complaint management.
 
-### What Works (Phase 1)
-✅ Submit complaints (Block, Floor, Issue Type, Description, Image)  
-✅ Real-time form validation  
-✅ Beautiful dark UI with cyan/purple theme  
-✅ Responsive (mobile, tablet, desktop)  
-✅ Local browser state (complaints visible until refresh)  
-✅ Live at `/projects/ccp`
+Notes
 
-### What's Planned (Phase 2)
-- Supabase database integration (persistent storage)
-- Claude API auto-categorization & priority assignment
-- Admin dashboard to manage complaints
-- Status tracking (submitted → in progress → resolved)
+Architecture is designed to make adding new projects simple
+Every push to main auto-deploys via Vercel
+Focus is on shipping real, usable tools rather than demos
 
-### Phase 2 Blocker
-**Current limitation:** Network in your region cannot reach Supabase API (`net::ERR_CONNECTION_REFUSED`). Phase 1 works perfectly without it. Phase 2 database will be added when:
-- Network access is resolved, OR
-- Alternative backend is implemented
 
----
-
-## 🛠️ Tech Stack
-
-- **Frontend**: Next.js 14, React 18, TypeScript
-- **Styling**: Tailwind CSS 3.4, Lucide React icons
-- **Database**: Supabase (PostgreSQL) - Phase 2
-- **AI**: Claude API (Haiku 4.5) - Phase 2
-- **Hosting**: Vercel (auto-deploy on GitHub push)
-- **Version Control**: GitHub
-
----
-
-## 📝 Environment Setup
-
-### `.env.local` (for Phase 2)
-
-```
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-CLAUDE_API_KEY=your_claude_api_key
-```
-
-**Note:** Not needed for Phase 1. Phase 1 works without environment variables.
-
----
-
-## 🔧 Development
-
-### Run Dev Server
-```bash
-npm run dev
-# http://localhost:3000
-```
-
-### Build for Production
-```bash
-npm run build
-npm start
-```
-
-### TypeScript Check
-```bash
-npm run type-check
-```
-
----
-
-## 🎯 Project Goals
-
-1. **Showcase Real Products** - Not just portfolio, actual working projects
-2. **Full-Stack Learning** - Frontend + Backend + AI integration
-3. **Open Architecture** - Easy to add new projects to `/projects/[name]`
-4. **Cloud Ready** - Deployable to any hosting (Vercel, AWS, etc.)
-
----
-
-## 📊 Project Structure - Adding New Projects
-
-To add a new AI project:
-
-```bash
-mkdir -p app/projects/[project-name]
-touch app/projects/[project-name]/page.tsx
-```
-
-Update `app/projects/page.tsx` to add it to the gallery:
-
-```tsx
-const projects = [
-  {
-    id: 'ccp',
-    name: 'CCP Portal',
-    href: '/projects/ccp',
-    status: 'Live',
-  },
-  {
-    id: 'new-project',  // Add here
-    name: 'New Project',
-    href: '/projects/new-project',
-    status: 'Beta',
-  },
-];
-```
-
----
-
-## 🚀 Deployment
-
-### Vercel (Recommended)
-1. Push to GitHub
-2. Vercel auto-deploys
-3. Custom domain: aiyer.digital (already configured)
-
-### Manual Deploy
-```bash
-npm run build
-# Deploy .next folder to your host
-```
-
----
-
-## 📚 File Guide
-
-### Key Files
-
-| File | Purpose |
-|------|---------|
-| `app/page.tsx` | Homepage component |
-| `app/projects/page.tsx` | Projects gallery |
-| `app/projects/ccp/page.tsx` | CCP Portal (Phase 1) |
-| `app/layout.tsx` | Root layout with metadata |
-| `app/globals.css` | Global styles + Tailwind imports |
-| `lib/supabase.ts` | Supabase client (Phase 2) |
-| `package.json` | Dependencies & scripts |
-
-### Add/Edit Content
-
-**Homepage**: Edit `app/page.tsx`  
-**Projects Hub**: Edit `app/projects/page.tsx`  
-**CCP Portal**: Edit `app/projects/ccp/page.tsx`  
-**Styles**: Edit `app/globals.css` or `tailwind.config.js`
-
----
-
-## 🐛 Troubleshooting
-
-### Port 3000 already in use
-```bash
-npm run dev -- -p 3001
-```
-
-### Tailwind styles not loading
-```bash
-npm run build
-npm run dev
-```
-
-### TypeScript errors
-```bash
-npm install
-```
-
-### Supabase connection fails (Expected in Phase 2)
-This is a known issue due to network restrictions. Phase 1 works without it.
-
----
-
-## 🎓 Learning Path
-
-If you're learning from this project:
-
-1. **Phase 1 (Now)**: Focus on React/Next.js form handling + UI
-2. **Phase 2**: Add database (Supabase + API routes)
-3. **Phase 3**: Integrate Claude API for AI features
-4. **Phase 4**: Build admin dashboard & authentication
-
-Each phase builds on the previous one.
-
----
-
-## 📈 Roadmap
-
-- [x] Phase 1: CCP Portal MVP (form + submission)
-- [ ] Phase 2: Supabase database + Claude API
-- [ ] Phase 3: Admin dashboard
-- [ ] Phase 4: Multi-building support
-- [ ] Phase 5: Mobile app (React Native)
-
----
-
-## 🤝 Contributing
-
-This is a personal project, but feel free to fork and customize for your own needs.
-
----
-
-## 📄 License
-
-MIT - Open source, use as you like.
-
----
-
-## 💡 Notes
-
-- **Phase 1 is production-ready** for local/browser usage
-- **Network limitation**: Supabase unreachable from current region (Phase 2 blocker)
-- **Architecture is scalable**: Easy to add more projects under `/projects/[name]`
-- **Auto-deploy**: Every push to GitHub → Vercel deploys automatically
-
----
-
-**Built with Next.js + React + Tailwind CSS + Vercel**
-
-Latest Update: Phase 1 Complete - September 2024
+License
+MIT

@@ -282,7 +282,54 @@ export default function CCPPortal() {
               <CheckCircle className="w-6 h-6 text-purple-400" />
               Recent Complaints ({complaints.length})
             </h2>
+{/* About + Tech Stack Section */}
+<section className="mt-16 max-w-4xl mx-auto px-4">
+  <div className="bg-slate-900/60 border border-cyan-500/20 rounded-2xl p-8 backdrop-blur-sm">
+    
+    {/* About this project */}
+    <h2 className="text-2xl font-semibold text-cyan-400 mb-4">
+      About this project
+    </h2>
+    <p className="text-slate-300 leading-relaxed mb-6">
+      CCP Portal is a Community Complaint Portal designed for apartment and building residents. 
+      It allows users to quickly report maintenance issues (plumbing, electrical, security, etc.) 
+      with location details and optional photo evidence. 
+      Phase 1 focuses on a clean, fast reporting experience. 
+      Phase 2 will add persistent storage, AI-powered prioritization, and an admin dashboard.
+    </p>
 
+    {/* Tech Stack */}
+    <h3 className="text-xl font-semibold text-purple-400 mb-4">
+      Tech Stack
+    </h3>
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+      <div className="flex items-center gap-2 text-slate-300">
+        <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
+        Frontend: Next.js 14, React 18, TypeScript
+      </div>
+      <div className="flex items-center gap-2 text-slate-300">
+        <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
+        Styling: Tailwind CSS, Lucide Icons
+      </div>
+      <div className="flex items-center gap-2 text-slate-300">
+        <span className="w-2 h-2 rounded-full bg-purple-400"></span>
+        State: Client-side (Phase 1)
+      </div>
+      <div className="flex items-center gap-2 text-slate-300">
+        <span className="w-2 h-2 rounded-full bg-purple-400"></span>
+        Planned: Supabase + Claude API (Phase 2)
+      </div>
+      <div className="flex items-center gap-2 text-slate-300">
+        <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
+        Hosting: Vercel
+      </div>
+      <div className="flex items-center gap-2 text-slate-300">
+        <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
+        Repo: <a href="https://github.com/akscorp09/aiyerdigital" target="_blank" className="text-cyan-400 hover:underline">GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
             <div className="space-y-4 max-h-96 overflow-y-auto">
               {fetchingComplaints ? (
                 <p className="text-slate-400 text-center py-8">Loading complaints...</p>

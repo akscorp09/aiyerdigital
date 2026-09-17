@@ -313,8 +313,9 @@ export default function CCPPortal() {
                 ))
               )}
             </div>
-          </div>
-                  {/* About + Tech Stack Section */}
+          </div>                  
+        </div>
+        {/* About + Tech Stack Section */}
         <section className="mt-16">
           <div className="bg-slate-900/60 border border-cyan-500/20 rounded-2xl p-8 backdrop-blur-sm">
             <h2 className="text-2xl font-semibold text-cyan-400 mb-4">
@@ -367,7 +368,6 @@ export default function CCPPortal() {
             </div>
           </div>
         </section>
-        </div>
       </div>
     </div>
   );

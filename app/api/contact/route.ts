@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
     // --- 2. Email via Resend ---
     const resendKey = process.env.RESEND_API_KEY;
     const toEmail = process.env.CONTACT_TO_EMAIL || 'info@aiyer.digital';
-    const fromEmail = process.env.CONTACT_FROM_EMAIL || 'onboarding@resend.dev';
+    const fromEmail = process.env.CONTACT_FROM_EMAIL || 'arun@aiyer.digital';
 
     if (resendKey) {
       const emailRes = await fetch('https://api.resend.com/emails', {

@@ -57,7 +57,7 @@ Useful for leads, support, and “someone just messaged me” alerts without che
 
 Put these in **`.env.local`** (local) and **Vercel → Project → Settings → Environment Variables** (production).
 
-Never commit real values. Never put them in README, `.py` test files, or the repo.
+Never commit real values. Never put them in README, `**.py**` test files, or the repo.
 
 ```env
 # Pushover
@@ -80,7 +80,8 @@ CONTACT_FROM_EMAIL=noreply@aiyer.digital
 | CONTACT_FROM_EMAIL| Must be on a verified domain in Resend |
 
 
-Resend domain: Verify <domain.name> in Resend (DNS SPF/DKIM). Until verified, delivery to info@aiyer.digital may fail even if the dashboard shows a send.
+**Resend domain**: Verify <domain.name> in Resend (DNS SPF/DKIM). 
+Until verified, delivery to info@a<domain.name> may fail even if the dashboard shows a send.
 
 **Local test**
 ```
@@ -88,7 +89,7 @@ cd C:\****
 npm run dev
 ```
 
-Open http://localhost:3000/contact → submit a test message.
+Open http://localhost:<port>/contact → submit a test message.
 Expect:
 
  Pushover notification on your device
@@ -119,39 +120,39 @@ app/contact/*.py
 
 **Live Projects (summary)**
 1. CCP Portal
-Complaint reporting for buildings. Phase 1: form + localStorage.
+- Complaint reporting for buildings. Phase 1: form + localStorage.
+- Live: /projects/ccp
 
-Live: /projects/ccp
 2. Personal Email Intelligence (PEI)
-Inbox patterns → weekly insights (Grok + Gmail read-only).
-
-Live: /projects/pei
+- Inbox patterns → weekly insights (Grok + Gmail read-only).
+- Live: /projects/pei
+  
 3. Contact notifications
-Form → Pushover + Resend email.
-
-Live: /contact
+- Form → Pushover + Resend email.
+- Live: /contact
 
 ### Tech Stack
 
-Layer,Technology
-Frontend,"Next.js, React, TypeScript"
-Styling,"Tailwind CSS, Lucide Icons"
-Notifications,Pushover
-Email,Resend
-Hosting,Vercel
-Source,GitHub
+| Layer | Technology |
+|------|------|
+| Frontend | Next.js, React, TypeScript |
+| Styling | Tailwind CSS, Lucide Icons |
+| Notifications | Pushover |
+| Email | Resend |
+| Hosting | Vercel |
+| Source | GitHub |
 
-Getting Started
+### Getting Started
 ```
-git clone https://github.com/akscorp09/aiyerdigital.git
-cd aiyerdigital
+git clone https://github.com/****.git
+cd *****
 npm install
 cp .env.example .env.local   # then fill secrets locally
 npm run dev
 
 ```
 
-Open http://localhost:3000
+Open http://localhost:<port>
 
 **License**
  - MIT
@@ -161,7 +162,6 @@ Open http://localhost:3000
 
 ```
 cd C:\******
-# edit README.md with the content above (or paste in VS Code)
-git add README.md
-git commit -m "Document Contact feature: Pushover + Resend setup"
+git add 
+git commit -m " Description of commit"
 git push origin main

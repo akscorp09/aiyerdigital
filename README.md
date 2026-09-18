@@ -50,6 +50,10 @@ Turning raw inbox noise into structured weekly insights using **Grok + Gmail** (
 - Surfaces personal activity signals (shopping, banking, career, food)
 - Privacy-first approach (no emails modified or deleted)
 
+**Planned (Phase 2):**
+- providing modify access to Grok
+- adding more logic for analytics
+
 **Live:** [aiyer.digital/projects/pei](https://aiyer.digital/projects/pei)
 
 ---
@@ -69,7 +73,8 @@ Turning raw inbox noise into structured weekly insights using **Grok + Gmail** (
 
 ## Project Structure
 
-```bash
+```
+
 aiyerdigital/
 ├── app/
 │   ├── page.tsx                  # Homepage
@@ -85,24 +90,26 @@ aiyerdigital/
 │   └── supabase.ts
 ├── package.json
 └── README.md
-
-Getting Started
-Prerequisites
+```
+## Getting Started
+**Prerequisites**
 
 Node.js 18.17+
 npm or yarn
 
-Installation
-Bash
+**Installation**
+```
 git clone https://github.com/akscorp09/aiyerdigital.git
 cd aiyerdigital
 npm install
 npm run dev
+```
 Open http://localhost:3000
 
-Adding a New Project
-
-Create the folder:Bash mkdir -p app/projects/[project-name]
+**Adding a New Project**
+```
+Create the folder:
+mkdir -p app/projects/[project-name]
 Add page.tsx inside it
 Register it in app/projects/page.tsx:
 
@@ -113,30 +120,39 @@ tsx{
   href: '/projects/project-id',
   status: 'Live',
 }
-
+```
 Push to GitHub → Vercel automatically deploys
 
 
-Routes
+**Routes**
 
-RoutePurposeStatus/HomepageLive/projectsProjects galleryLive/projects/ccpCommunity Complaint PortalLive/projects/peiPersonal Email IntelligenceLive
+|   Route       |           Purpose                | Status |
+|-------------- |----------------------------------|--------|
+| /Homepage     |                                  |  Live  | 
+| /Projects     |        Gallery                   |  Live  |  
+| /ccpCommunity |     Complaint Portal             |  Live  |
+| /pei          |  Personal Email Intelligence     |  Live  |
 
-Roadmap
+---
 
- CCP Portal (Phase 1)
- Personal Email Intelligence
- CCP Public Dashboard (metrics display)
- Career Signal Tracker
- More personal AI use cases
- CCP Phase 2 (Supabase + Claude)
+## Roadmap
 
+- CCP Portal (Phase 2)
+- Personal Email Intelligence (Phase 2)
+- CCP Public Dashboard (metrics display) (Phase 3)
+- Career Signal Tracker 
+- More personal AI use cases
+- CCP Phase 4 (Free Tier Database + Claude)
 
-Notes
+---
 
-Architecture is designed to make adding new projects simple
-Every push to main auto-deploys via Vercel
-Focus is on shipping real, usable tools rather than demos
+**Notes**
 
+- Architecture is designed to make adding new projects simple
+- Every push to main auto-deploys via Vercel
+- Focus is on shipping real, usable tools rather than demos
 
-License
-MIT
+---
+
+**License**
+- MIT

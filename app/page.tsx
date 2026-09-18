@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Zap, Cpu, Code2 } from 'lucide-react';
+import { Zap, Cpu, Code2, Mail } from 'lucide-react';
 
 export default function HomePage() {
   return (
@@ -12,12 +12,20 @@ export default function HomePage() {
           <h2 className="text-xl font-semibold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
             Aiyer Digital
           </h2>
-          <Link
-            href="/projects"
-            className="px-4 py-2 text-sm border border-cyan-400/30 text-cyan-400 rounded-lg hover:bg-cyan-400/10 transition"
-          >
-            Projects
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/projects"
+              className="px-4 py-2 text-sm border border-cyan-400/30 text-cyan-400 rounded-lg hover:bg-cyan-400/10 transition"
+            >
+              Projects
+            </Link>
+            <Link
+              href="/contact"
+              className="px-4 py-2 text-sm border border-purple-400/30 text-purple-300 rounded-lg hover:bg-purple-400/10 transition"
+            >
+              Contact
+            </Link>
+          </div>
         </div>
 
         {/* Hero */}
@@ -29,12 +37,20 @@ export default function HomePage() {
             Building intelligent solutions for real-world problems.
             Infrastructure. Automation. AI.
           </p>
-          <Link
-            href="/projects"
-            className="inline-block px-8 py-3 bg-gradient-to-r from-cyan-400 to-blue-500 text-slate-900 font-semibold rounded-lg hover:shadow-lg hover:shadow-cyan-400/30 transition"
-          >
-            Explore Projects
-          </Link>
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <Link
+              href="/projects"
+              className="inline-block px-8 py-3 bg-gradient-to-r from-cyan-400 to-blue-500 text-slate-900 font-semibold rounded-lg hover:shadow-lg hover:shadow-cyan-400/30 transition"
+            >
+              Explore Projects
+            </Link>
+            <Link
+              href="/contact"
+              className="inline-block px-8 py-3 border border-cyan-400/40 text-cyan-400 font-semibold rounded-lg hover:bg-cyan-400/10 transition"
+            >
+              Contact me
+            </Link>
+          </div>
         </div>
 
         {/* Feature Cards */}
@@ -70,13 +86,29 @@ export default function HomePage() {
           </div>
         </div>
 
+        {/* Contact module */}
+        <div className="mb-20 bg-slate-900/50 border border-cyan-400/15 rounded-2xl p-8 md:p-10 text-center backdrop-blur-sm">
+          <div className="w-12 h-12 rounded-xl bg-cyan-400/10 flex items-center justify-center mx-auto mb-4">
+            <Mail className="w-6 h-6 text-cyan-400" />
+          </div>
+          <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
+            Have a project in mind?
+          </h2>
+          <p className="text-slate-400 max-w-xl mx-auto mb-6">
+            Send a message and you’ll get a response. Form notifies via Pushover and email.
+          </p>
+          <Link
+            href="/contact"
+            className="inline-block px-8 py-3 bg-gradient-to-r from-cyan-400 to-blue-500 text-slate-900 font-semibold rounded-lg hover:shadow-lg hover:shadow-cyan-400/30 transition"
+          >
+            Go to Contact
+          </Link>
+        </div>
+
         {/* Bottom CTA */}
         <div className="text-center">
           <p className="text-slate-400 mb-4">Ready to explore?</p>
-          <Link
-            href="/projects"
-            className="text-cyan-400 hover:underline"
-          >
+          <Link href="/projects" className="text-cyan-400 hover:underline">
             View Live Projects →
           </Link>
         </div>

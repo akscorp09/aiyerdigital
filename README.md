@@ -1,7 +1,7 @@
 # AIyer Digital
 
 **Personal portfolio + live AI projects**  
-Built with Next.js 14, React 18, TypeScript & Tailwind CSS.
+Built with Next.js, React, TypeScript & Tailwind CSS.
 
 **Live site:** [https://aiyer.digital](https://aiyer.digital)
 
@@ -9,150 +9,159 @@ Built with Next.js 14, React 18, TypeScript & Tailwind CSS.
 
 ## Overview
 
-aiyer.digital is a personal portfolio focused on **real, working AI and automation projects** — not just concepts or mockups.  
+aiyer.digital showcases **real, working AI and automation projects** — not mockups.
 
-It currently includes:
+Current live areas:
 
-- A clean landing page
-- A projects gallery
-- Live, functional applications
-
-The goal is to continuously ship practical AI use cases and document the process.
-
----
-
-## Live Projects
-
-### 1. CCP Portal – Community Complaint Portal
-A real-time complaint reporting system for apartment and building residents.
-
-**Features (Phase 1):**
-- Submit complaints with Block, Floor, Issue Type, Description & optional image
-- View recent complaints
-- Clean dark UI with cyan/purple theme
-- Fully responsive
-
-**Planned (Phase 2):**
-- Persistent storage with Supabase
-- Claude API for auto-categorization & priority
-- Admin dashboard + status tracking
-
-**Live:** [aiyer.digital/projects/ccp](https://aiyer.digital/projects/ccp)
+| Route | Purpose | Status |
+|-------|---------|--------|
+| `/` | Homepage | Live |
+| `/projects` | Projects gallery | Live |
+| `/projects/ccp` | Community Complaint Portal | Live |
+| `/projects/pei` | Personal Email Intelligence | Live |
+| `/contact` | Contact form → Pushover + email | Live |
 
 ---
 
-### 2. Personal Email Intelligence (PEI)
-Turning raw inbox noise into structured weekly insights using **Grok + Gmail** (read-only).
+## Feature: Contact Us
 
-**What it does:**
-- Analyses email activity (August 2026 example)
-- Breaks down senders, categories and patterns
-- Surfaces personal activity signals (shopping, banking, career, food)
-- Privacy-first approach (no emails modified or deleted)
+**URL:** [https://aiyer.digital/contact](https://aiyer.digital/contact)
 
-**Planned (Phase 2):**
-- providing modify access to Grok
-- adding more logic for analytics
+### Real-world use case
 
-**Live:** [aiyer.digital/projects/pei](https://aiyer.digital/projects/pei)
+When someone submits the contact form on the site:
 
----
+1. **Pushover** — instant mobile notification (phone/desktop)
+2. **Email** — message delivered to `info@<domain.name>` via Resend
 
-## Tech Stack
+Useful for leads, support, and “someone just messaged me” alerts without checking the inbox constantly.
 
-| Layer        | Technology                          |
-|--------------|-------------------------------------|
-| Frontend     | Next.js 14, React 18, TypeScript    |
-| Styling      | Tailwind CSS, Lucide Icons          |
-| Database     | Supabase (Phase 2 for CCP)          |
-| AI           | Grok + Claude API                   |
-| Hosting      | Vercel (auto-deploy on push)        |
-| Version Ctrl | GitHub                              |
+### How it works
 
----
+| File | Role |
+|------|------|
+| `app/contact/page.tsx` | Contact form UI |
+| `app/api/contact/route.ts` | Server handler (Pushover + Resend) |
+| `app/page.tsx` | Homepage links + Contact module |
 
-## Project Structure
+### Apps / services used
+
+| Service | Purpose | Docs |
+|---------|---------|------|
+| **Pushover** | Push notifications to your devices | [pushover.net](https://pushover.net) |
+| **Resend** | Transactional email API | [resend.com](https://resend.com) |
+| **Vercel** | Hosting + env vars + auto-deploy | [vercel.com](https://vercel.com) |
+| **GitHub** | Source control | — |
+
+### Environment variables
+
+Put these in **`.env.local`** (local) and **Vercel → Project → Settings → Environment Variables** (production).
+
+Never commit real values. Never put them in README, `.py` test files, or the repo.
+
+```env
+# Pushover
+PUSHOVER_USER_KEY=your_user_key
+PUSHOVER_API_TOKEN=your_app_api_token
+
+# Resend
+RESEND_API_KEY=re_xxxxxxxx
+CONTACT_TO_EMAIL=info@aiyer.digital
+CONTACT_FROM_EMAIL=noreply@aiyer.digital
+```
+
+
+| Variable | Notes |
+|---------|---------|
+| PUSHOVER_USER_KEY | From Pushover account dashboard |
+| PUSHOVER_API_TOKEN | From your Pushover application |
+| RESEND_API_KEY| From Resend → API Keys |
+| CONTACT_TO_EMAIL| Inbox that receives form messages |
+| CONTACT_FROM_EMAIL| Must be on a verified domain in Resend |
+
+
+Resend domain: Verify <domain.name> in Resend (DNS SPF/DKIM). Until verified, delivery to info@aiyer.digital may fail even if the dashboard shows a send.
+
+**Local test**
+```
+cd C:\****
+npm run dev
+```
+
+Open http://localhost:3000/contact → submit a test message.
+Expect:
+
+ Pushover notification on your device
+ Email in info@<domain.name>(after domain + keys are set)
+
+### Security rules (learned the hard way)
+
+- Secrets only in .env.local and Vercel — never in source or README
+- Do not commit local test scripts with keys (e.g. send_pushover.py, send_email_*.py)
+- Prefer keeping test scripts outside the repo, or add to .gitignore:
+
+```
+app/contact/*.py
+.env.local
+.env*.local
 
 ```
 
-aiyerdigital/
-├── app/
-│   ├── page.tsx                  # Homepage
-│   ├── layout.tsx
-│   ├── globals.css
-│   └── projects/
-│       ├── page.tsx              # Projects gallery
-│       ├── ccp/
-│       │   └── page.tsx          # CCP Portal
-│       └── pei/
-│           └── page.tsx          # Personal Email Intelligence
-├── lib/
-│   └── supabase.ts
-├── package.json
-└── README.md
-```
-## Getting Started
-**Prerequisites**
+- If GitHub Push Protection blocks a push: the secret is still in git history — reset to origin/main, recommit only clean files, rotate the exposed key
+- Supabase env vars are optional; CCP uses localStorage (no Supabase required from regions where Supabase is unreachable)
 
-Node.js 18.17+
-npm or yarn
+**Git workflow reminders**
 
-**Installation**
+- Always run git from project root: C:\*********
+- Before push: git pull origin main if remote is ahead
+- After push: wait for Vercel deployment status Ready (not only GitHub green)
+
+
+**Live Projects (summary)**
+1. CCP Portal
+Complaint reporting for buildings. Phase 1: form + localStorage.
+
+Live: /projects/ccp
+2. Personal Email Intelligence (PEI)
+Inbox patterns → weekly insights (Grok + Gmail read-only).
+
+Live: /projects/pei
+3. Contact notifications
+Form → Pushover + Resend email.
+
+Live: /contact
+
+### Tech Stack
+
+Layer,Technology
+Frontend,"Next.js, React, TypeScript"
+Styling,"Tailwind CSS, Lucide Icons"
+Notifications,Pushover
+Email,Resend
+Hosting,Vercel
+Source,GitHub
+
+Getting Started
 ```
 git clone https://github.com/akscorp09/aiyerdigital.git
 cd aiyerdigital
 npm install
+cp .env.example .env.local   # then fill secrets locally
 npm run dev
+
 ```
+
 Open http://localhost:3000
 
-**Adding a New Project**
-```
-Create the folder:
-mkdir -p app/projects/[project-name]
-Add page.tsx inside it
-Register it in app/projects/page.tsx:
-
-tsx{
-  id: 'project-id',
-  name: 'Project Name',
-  description: 'Short description',
-  href: '/projects/project-id',
-  status: 'Live',
-}
-```
-Push to GitHub → Vercel automatically deploys
-
-
-**Routes**
-
-|   Route       |           Purpose                | Status |
-|-------------- |----------------------------------|--------|
-| /Homepage     |                                  |  Live  | 
-| /Projects     |        Gallery                   |  Live  |  
-| /ccpCommunity |     Complaint Portal             |  Live  |
-| /pei          |  Personal Email Intelligence     |  Live  |
-
----
-
-## Roadmap
-
-- CCP Portal (Phase 2)
-- Personal Email Intelligence (Phase 2)
-- CCP Public Dashboard (metrics display) (Phase 3)
-- Career Signal Tracker 
-- More personal AI use cases
-- CCP Phase 4 (Free Tier Database + Claude)
-
----
-
-**Notes**
-
-- Architecture is designed to make adding new projects simple
-- Every push to main auto-deploys via Vercel
-- Focus is on shipping real, usable tools rather than demos
-
----
-
 **License**
-- MIT
+ - MIT
+---
+
+### Apply it on your machine
+
+```
+cd C:\******
+# edit README.md with the content above (or paste in VS Code)
+git add README.md
+git commit -m "Document Contact feature: Pushover + Resend setup"
+git push origin main

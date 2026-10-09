@@ -17,6 +17,16 @@ export default function ProjectsHub() {
       href: '/projects/pei',
       status: 'Live',
     },
+
+    {
+      id: 'api-error-summary',
+      name: 'API Error Summary Report',
+      description: 'Python CLI tool for analyzing HTTP errors, counting priorities, and calculating urgent-error percentages.',
+      href: 'https://github.com/akscorp09/api-error-summary',
+      status: 'GitHub',
+    },
+
+
   ];
 
   return (
@@ -48,6 +58,8 @@ export default function ProjectsHub() {
             <Link
               key={project.id}
               href={project.href}
+              target={project.href.startsWith('http') ? '_blank' : undefined}
+              rel={project.href.startsWith('http') ? 'noopener noreferrer' : undefined}
               className="group bg-slate-900/50 border border-cyan-400/10 rounded-lg p-6 hover:border-cyan-400/30 transition"
             >
               <div className="flex justify-between items-start mb-4">
@@ -57,9 +69,17 @@ export default function ProjectsHub() {
                   </h2>
                   <p className="text-slate-400 mt-2">{project.description}</p>
                 </div>
-                <span className="px-3 py-1 text-xs bg-green-500/20 border border-green-500/30 rounded-full text-green-300">
+
+                <span
+                  className={`px-3 py-1 text-xs rounded-full border ${
+                    project.status === 'Live'
+                      ? 'bg-green-500/20 border-green-500/30 text-green-300'
+                      : 'bg-slate-500/20 border-slate-500/30 text-slate-300'
+                  }`}
+                >
                   {project.status}
                 </span>
+
               </div>
               <div className="flex items-center gap-2 text-cyan-400 group-hover:gap-3 transition">
                 <span>Explore</span>
